@@ -1,0 +1,23 @@
+table {
+	width:100%;
+}
+
+table, td, th {
+	border: 1px solid black;
+	border-collapse: collapse;
+	margin:0;
+	overflow-x: auto;
+	overflow-y: hidden;
+}
+
+a {
+	text-decoration: none;
+	font-size: 1.5em;
+	margin: 0 10px 0 10px;
+}
+
+td a {
+	text-decoration:none;
+	margin: 0 10px 0 10px;
+	font-size: 1em;
+}
