@@ -3,6 +3,7 @@ session_start();
 include_once './conexao.php';
 
 $id = $u->searchUser($_GET['update']);
+$session_id = $u->searchUser($_SESSION['id']);
 ?>
 <!DOCTYPE html>
 <html>
@@ -12,7 +13,7 @@ $id = $u->searchUser($_GET['update']);
     </head>
 	<body>
 		<h1 style="text-align:center">Atualizar Dados</h1>
-		<h3 style="text-align:center"> Deem refresh na página para ver o resultado </h3>
+		<h3 style="text-align:center"> Para visualizar as alterações, dê refresh na página após clicar no botão "alterar". </h3>
 		
 		<form style="display:block;width:150px;margin:auto" action="" method="post">
 			<label>Nome: </label><input type="text" name="nome" value="<?php echo $id['nome']; ?>"><br><br>
@@ -22,7 +23,7 @@ $id = $u->searchUser($_GET['update']);
 			<label>Cidade: </label><input type="text" name="cidade" value="<?php echo $id['cidade']; ?>"><br><br>
 			<label>UF: </label><input type="text" name="uf" maxlength="2" minlength="2" size="1" value="<?php echo $id['uf']; ?>"><br><br>
 			<label>Senha: </label><input type="password" name="senha" ><br><br>
-			<input type="submit" value="Alterar" name="alterar"><a href="<?php if($id['admin'] == 1) {echo './admin.php';} else {echo'./user.php';}?>">Voltar</a><br><br>
+			<input type="submit" value="Alterar" name="alterar"><a href="<?php if($session_id['admin'] == 1) {echo './admin.php';} else {echo'./user.php';}?>">Voltar</a><br><br>
 			<?php
 				if(!empty($_POST['alterar'])) {
 					$counter = 0;

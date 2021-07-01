@@ -16,7 +16,6 @@ $allnews = $n->searchAllNews();
 		
 		<div style="margin:10px;position:absolute;top:0;right:0">
 			<a style="font-size:1.5em" href="./user.php">Home</a>
-			<a style="font-size:1.5em" href="<?php echo $_SERVER['HTTP_REFERER']; ?>">Voltar</a>
 			<a style="font-size:1.5em" href="./index.php">Sair</a>
 		</div>
 	
