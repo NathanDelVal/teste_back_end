@@ -2,6 +2,16 @@
 session_start();
 include_once './conexao.php';
 
+if($_SESSION['auth'] == 0) {
+	header ('location: '.$_SESSION['page'].'');
+}
+
+if(!$_GET) {
+	$_GET['page'] = 1;
+}
+
+$_SESSION['page'] = $_SERVER['PHP_SELF'].'?page='.$_GET['page'].'';
+
 $id = $u->searchUser($_SESSION['id']);
 $allnews = $n->searchAllNews();
 ?>
@@ -16,7 +26,7 @@ $allnews = $n->searchAllNews();
 		
 		<div style="margin:10px;position:absolute;top:0;right:0">
 			<a style="font-size:1.5em" href="./user.php">Home</a>
-			<a style="font-size:1.5em" href="./index.php">Sair</a>
+			<a style="font-size:1.5em" href="./index.php?logout=1">Sair</a>
 		</div>
 	
 	<?php

@@ -2,8 +2,15 @@
 session_start();
 include_once './conexao.php';
 
+if($_SESSION['auth'] == 0) {
+	header ('location: '.$_SESSION['page'].'');
+}
+
+$_SESSION['page'] = $_SERVER['PHP_SELF'];
+
+
 $id = $u->searchUser($_GET['update']);
-$session_id = $u->searchUser($_SESSION['id']);
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -23,7 +30,7 @@ $session_id = $u->searchUser($_SESSION['id']);
 			<label>Cidade: </label><input type="text" name="cidade" value="<?php echo $id['cidade']; ?>"><br><br>
 			<label>UF: </label><input type="text" name="uf" maxlength="2" minlength="2" size="1" value="<?php echo $id['uf']; ?>"><br><br>
 			<label>Senha: </label><input type="password" name="senha" ><br><br>
-			<input type="submit" value="Alterar" name="alterar"><a href="<?php if($session_id['admin'] == 1) {echo './admin.php';} else {echo'./user.php';}?>">Voltar</a><br><br>
+			<input type="submit" value="Alterar" name="alterar"><a href="<?php if($_SESSION['auth'] == 2) {echo './admin.php';} else {echo'./user.php';}?>">Voltar</a><br><br>
 			<?php
 				if(!empty($_POST['alterar'])) {
 					$counter = 0;
@@ -36,7 +43,6 @@ $session_id = $u->searchUser($_SESSION['id']);
 					}
 					if($counter < 2) {
 						echo "<p style='color:red'>Por favor, preencha algum campo</p>";
-						header('Refresh: 3;');
 					} else {
 						echo "<p style='color:green'>Dados atualizados com sucesso!";
 					}

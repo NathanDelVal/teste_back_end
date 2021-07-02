@@ -1,8 +1,16 @@
 <?php
 include_once './conexao.php';
+session_start();
+
+if($_SESSION['auth'] != 2) {
+	header ('location: '.$_SESSION['page'].'');
+}
+
+$_SESSION['page'] = $_SERVER['PHP_SELF'];
 
 $users = $u->searchAllUsers();
 $news = $n->searchAllNews();
+
 
 if(!empty($_POST['fu'])) {
 	$query = $u->floodUsers();
@@ -31,11 +39,11 @@ if(!empty($_POST['ln'])) {
 	<body>
 		<div style="margin:10px;position:absolute;top:0;right:0">
 			<a style="font-size:1.5em" href="./admin.php">Voltar</a>
-			<a style="font-size:1.5em" href="./index.php">Sair</a>
+			<a style="font-size:1.5em" href="./index.php?logout=1">Sair</a>
 		</div>
 		<form action="" method="post">
 			<h1 style="text-align:center"> Preencher Database</h1>
-			<h2 style="text-align:center"> Estes 2 botões geram 50 registros automáticos para suas respectivas tabelas CADA vez que você os aperta. </h2>
+			<h2 style="text-align:center"> Estes 2 botões geram 10 registros automáticos para suas respectivas tabelas CADA vez que você os aperta. </h2>
 			<input type="submit" value="Gerar Usuários" style="float:left;margin-left:20%" name="fu"> <input type="submit" style="float:right;margin-right:20%"value="Gerar Notícias" name="fn"><br><br>
 			<h1 style="text-align:center"> Limpar Database</h3>
 			<h2 style="text-align:center"> Estes 2 botões apagam TODOS os registros gerados pelos últimos 2 botões em suas respectivas tabelas.</h2> 

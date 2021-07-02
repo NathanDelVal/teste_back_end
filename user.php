@@ -2,8 +2,16 @@
 session_start();
 include_once './conexao.php';
 
+if($_SESSION['auth'] == 0) {
+	header ('location: '.$_SESSION['page'].'');
+}
+
+$_SESSION['page'] = $_SERVER['PHP_SELF'];
+
 $id = $u->searchUser($_SESSION['id']);
 $highlights = $n->searchHighlights();
+
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -19,7 +27,7 @@ $highlights = $n->searchHighlights();
 	?></h1><br>
 	<div style="margin:10px;position:absolute;top:0;right:0">
 		<a style="font-size:1.5em" href="./update.php?update=<?php echo $_SESSION['id']; ?>">Alterar dados</a>
-		<a style="font-size:1.5em" href="./index.php">Sair</a>
+		<a style="font-size:1.5em" href="./index.php?logout=1">Sair</a>
 	</div>
 	
 	<h2 style="text-align:center">Destaques</h2>

@@ -2,17 +2,13 @@
 /*
 //Conexao com porta
 $pdo = new PDO("mysql:host=$host;port=$port;dbname=".$dbname, $user, $pass);
-
-//Conexao sem a porta
-$pdo = new PDO("mysql:host=$host;dbname=".$dbname, $user, $pass);
-
 */
 
 class User {
 	private $pdo;
 	
-	public function __construct($dbname,$host,$user,$pass,$port) {
-		$this->pdo = new PDO("mysql:dbname=".$dbname.";port=".$port.";host=".$host,$user,$pass);
+	public function __construct($dbname,$host,$user,$pass) {
+		$this->pdo = new PDO("mysql:dbname=".$dbname.";host=".$host,$user,$pass);
 	}
 	
 	public function searchUser($email) {
@@ -47,7 +43,7 @@ class User {
 	}
 	public function floodUsers() {
 		$users = count($this->searchAllUsers());
-		for($x = ($users + 1); $x <= ($users + 50); $x++) {
+		for($x = $users; $x < ($users + 10); $x++) {
 		$query = $this->pdo->query('INSERT INTO users(email, senha, nome, cpf, end, cidade, uf) VALUES ("xxx'.$x.'@gmail.com", "xxx'.$x.'@gmail.com", "blablabla", "'.mt_rand(10000000000, 99999999999).'", "blebleble", "bliblibli","RJ")');
 		}
 	}
@@ -66,13 +62,13 @@ class User {
 		}
 	}
 
-$u = new User("teste","127.0.0.1","root","",'3306');
+$u = new User("id17172656_teste_backend","localhost","id17172656_nathan","fXB+E0@=fm}|nYNq");
 
 class News {
 	private $pdo;
 	
-	public function __construct($dbname,$host,$user,$pass,$port) {
-		$this->pdo = new PDO("mysql:dbname=".$dbname.";port=".$port."host=".$host,$user,$pass);
+	public function __construct($dbname,$host,$user,$pass) {
+		$this->pdo = new PDO("mysql:dbname=".$dbname.";host=".$host,$user,$pass);
 	}
 	
 	public function deleteNews($news) {
@@ -99,10 +95,10 @@ class News {
 	
 	public function floodNews() {
 		$news = count($this->searchAllNews());
-			for($x = ($news + 1); $x <= ($news + 50); $x++) {
+			for($x = $news; $x < ($news + 10); $x++) {
 			$year = strval(mt_rand(1970, date('Y')));
-			$month = '';
-			$day = '';
+			$month = '08';
+			$day = '23';
 			if($year == date('Y')) {
 				$month = strval(mt_rand(1, date('m')));
 			} else {
@@ -129,8 +125,7 @@ class News {
 					break;
 			}
 			$date = $year.'-'.$month.'-'.$day;
-			$users = $this->searchAllNews();
-			$query = $this->pdo->query('INSERT INTO news(titulo,data,resumo,conteudo) VALUES ("news '.$x.'", "'.$date.'", "news '.$x.'", "news '.$x.'")');
+			$query = $this->pdo->query('INSERT INTO news(titulo,data,resumo,conteudo) VALUES ("news '.$x.'", "'.$date.'", "resumo '.$x.'", "conteudo '.$x.'")');
 		}
 	}
 	
@@ -142,9 +137,18 @@ class News {
 				}
 			}
 		}
+	public function createNews($titulo,$resumo,$conteudo,$destaque,$data) {
+		$query = count($this->searchHighlights());
+		if($query >= 3 && $destaque == 1) {
+			echo 'Você possui um máximo de 3 destaques. Por favor, exclua '.($query - 2).' destaque(s) para cadastrar um novo';	
+		} else {
+			$query = $this->pdo->query('INSERT INTO news(titulo,data,resumo,conteudo,destaque) VALUES ("'.$titulo.'", "'.$data.'", "'.$resumo.'", "'.$conteudo.'","'.$destaque.'")');
+			return $query;
+		}
 	}
+}
 
 
-$n = new News('teste','127.0.0.1','root','','3306');
+$n = new News("id17172656_teste_backend","localhost","id17172656_nathan","fXB+E0@=fm}|nYNq");
 
 ?>

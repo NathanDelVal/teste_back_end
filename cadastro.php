@@ -1,5 +1,7 @@
 <?php
 include_once './conexao.php';
+
+$_SESSION['page'] = $_SERVER['PHP_SELF'];
 ?>
 <!DOCTYPE html>
 <html>
@@ -18,7 +20,7 @@ include_once './conexao.php';
 			<label>Cidade: </label><input type="text" name="cidade" ><br><br>
 			<label>UF: </label><input type="text" name="uf" maxlength="2" minlength="2" size="2"><br><br>
 			<label>Senha: </label><input type="password" name="senha"><br><br>
-			<input type="submit" value="Cadastrar" name="cadastrar"><input type="submit" formaction="index.php" value="Voltar">
+			<input type="submit" value="Cadastrar" name="cadastrar"><input type="submit" formaction="<?php if($_SESSION['auth'] == 2) {echo './admin.php';} else {echo'./index.php';}?>" value="Voltar">
 			<?php
 			if(!empty($_POST['cadastrar'])) {
 				if(!empty($_POST['nome']) && !empty($_POST['email']) && !empty($_POST['cpf']) && !empty($_POST['end']) && !empty($_POST['cidade']) && !empty($_POST['uf']) && !empty($_POST['senha'])) {

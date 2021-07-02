@@ -2,9 +2,18 @@
 session_start();
 include_once './conexao.php';
 
+if($_SESSION['auth'] != 2) {
+	header ('location: '.$_SESSION['page'].'');
+}
+
+$_SESSION['page'] = $_SERVER['PHP_SELF'];
+
+
 $id = $u->searchUser($_SESSION['id']);
 $allnews = $n->searchAllNews();
 $allusers = $u->searchAllUsers();
+
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -16,9 +25,11 @@ $allusers = $u->searchAllUsers();
 	<body>
 		<h1 style="text-align:center">Área do Administrador</h1>
 		
+		<a style="position:absolute;left:0;top:0;margin-left:10px"href="./cadastro_noticias.php">Cadastrar Notícias</a>
+		
 		<div style="margin:10px;position:absolute;top:0;right:0">
 			<a href="./flood.php">Gerar Registros</a>
-			<a href="./index.php">Sair</a>
+			<a href="./index.php?logout=1">Sair</a>
 		</div><br><br>
 		
 		
@@ -34,7 +45,7 @@ $allusers = $u->searchAllUsers();
 							<option value="resumo">Resumo</option>
 							<option value="conteudo">Conteudo</option>
 							<option value="data">Data</option>
-							<option value="destaques">Destacados</option>
+							<option value="destaque">Destacados</option>
 						</select>
 						<input type="submit" value="Pesquisar" name="news" /><br><br>
 					</form>
@@ -87,6 +98,9 @@ $allusers = $u->searchAllUsers();
 							if(empty($_POST['campo'])) {
 								$queried_users = $u->searchUsers('email',$_POST['query']);
 								foreach($queried_users as $x) {
+									if($x['admin'] == 1) {
+										continue;
+									}
 									echo '<tr>
 										<td width="70%">'.$x['email'].'</td><td width="30%"><a href="update.php?update='.$x['email'].'">Editar</a><a href="?deleteUsers='.$x['email'].'">Apagar</a></td>
 										</tr>';
@@ -94,6 +108,9 @@ $allusers = $u->searchAllUsers();
 							} else {
 								$queried_users = $u->searchUsers($_POST['campo'],$_POST['query']);
 								foreach($queried_users as $x) {
+									if($x['admin'] == 1) {
+										continue;
+									}
 									echo '<tr>
 										<td width="70%">'.$x[$_POST['campo']].'</td><td width="30%"><a href="update.php?update='.$x['email'].'">Editar</a><a href="?deleteUsers='.$x['email'].'">Apagar</a></td>
 										</tr>';
