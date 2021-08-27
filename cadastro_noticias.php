@@ -19,7 +19,7 @@ $_SESSION['page'] = $_SERVER['PHP_SELF'];
 	<body>
 		<h1 style="text-align:center">Página de Cadastro de Notícias</h1>
 		
-		<form style="display:block;width:200px;margin:auto" action="" method="post">
+		<form style="display:block;width:200px;margin:auto" action="" method="post" enctype="multipart/form-data">
 			<label>Título: </label><textarea id="titulo" name="titulo" rows="2" cols="50"></textarea><br><br>
 			<label>Resumo: </label><textarea id="resumo" name="resumo" rows="4" cols="50"></textarea><br><br>
 			<label>Data: </label><input type="date" name="data"><br><br>
